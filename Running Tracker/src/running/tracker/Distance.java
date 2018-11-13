@@ -175,7 +175,7 @@ public class Distance implements Serializable{
                 save.saveToFile();
             }
         });
-        
+                
         Button sortDate = new Button("Sort by date");
         sortDate.setOnAction(e -> {
             boolean isRun;
@@ -189,12 +189,18 @@ public class Distance implements Serializable{
             }
         });
         
+        Button viewProgress = new Button("View Progress");
+        viewProgress.setOnAction(e -> {
+            ProgressChart chart= new ProgressChart(runs, name);
+            chart.displayChart();
+        });
+        
         Button addRun = new Button("Add Run");addRun.setDefaultButton(true);
         addRun.setOnAction(e -> addRun(save, scroller));        
         Button close = new Button("Close");close.setCancelButton(true);
         close.setOnAction(e -> editStage.close());
         
-        VBox pane = new VBox(new ToolBar(sortTime, sortDate), scroller, new HBox(addRun, close));
+        VBox pane = new VBox(new ToolBar(sortTime, sortDate), scroller, new HBox(addRun, viewProgress, close));
         Scene scene = new Scene(pane);
         scene.getStylesheets().add(this.getClass().getResource("RunningStyle.css").toExternalForm());
         editStage.setScene(scene);
@@ -238,5 +244,4 @@ public class Distance implements Serializable{
             viewDistanceRender(scroller, saveFile);
         }
     }
-    
 }

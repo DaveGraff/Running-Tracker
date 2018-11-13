@@ -65,6 +65,10 @@ public class Run implements Serializable{
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         return sdf.format(date);
     }
+    
+    public Date getRealDate(){
+        return date;
+    }
 
     /**
      * Sets the date for a given run. NOT ZERO INDEXED
