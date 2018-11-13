@@ -5,7 +5,6 @@ package running.tracker;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import javafx.scene.Scene;
@@ -106,10 +105,9 @@ public class Run implements Serializable{
     
     /**
      * Displays a stage to edit a given runs time or date
-     * @param distances
      * @param saveFile 
      */
-    public void editRun(ArrayList<Distance> distances, SaveFile saveFile){
+    public void editRun(SaveFile saveFile){
         Stage thisStage = new Stage();
         thisStage.setTitle("Add Run");
         String[] currentDate = getDate().split("/");
@@ -138,7 +136,7 @@ public class Run implements Serializable{
                 setDate(y, m, d);
                 minutes = mt;
                 seconds = st;
-                saveFile.saveToFile(distances);
+                saveFile.saveToFile();
                 thisStage.close();
             } catch(NumberFormatException x){
                 error.setText("Please enter a valid input!");

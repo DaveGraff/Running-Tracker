@@ -38,7 +38,7 @@ public class RunningTracker extends Application {
         ToolBar toolbar = new ToolBar(addDistance, close);
                 
         VBox main = new VBox(toolbar, pane);
-        main.setMinSize(310, 400);
+        main.setMinSize(380, 400);
         Scene scene = new Scene(main);
         scene.getStylesheets().add(this.getClass().getResource("RunningStyle.css").toExternalForm());
         primaryStage.setTitle("Run Tracker");
@@ -62,9 +62,9 @@ public class RunningTracker extends Application {
                 Distance temp = new Distance(enterName.getText());
                 distances.add(temp);
                 render(distances, pane, save);
-                save.saveToFile(distances);
+                save.saveToFile();
                 newStage.close();
-                temp.viewDistance(distances, save);
+                temp.viewDistance(save);
             }
         });
         Button cancel = new Button("Cancel");cancel.setCancelButton(true);
@@ -122,7 +122,7 @@ public class RunningTracker extends Application {
             down.setOnAction(e -> {if(move(distances, distance, 1)){render(distances, pane, save);}});
             
             Button view = new Button("View");
-            view.setOnAction(e -> distance.viewDistance(distances, save));
+            view.setOnAction(e -> distance.viewDistance(save));
             Button remove = new Button("Remove");
             remove.setOnAction(e -> {
                 boolean ok = false;
@@ -137,7 +137,7 @@ public class RunningTracker extends Application {
                 if (distance.getRuns().isEmpty() || ok){
                     distances.remove(distance);
                     render(distances, pane, save);
-                    save.saveToFile(distances);
+                    save.saveToFile();
                 }
             });
             HBox row = new HBox(name, up, down, view, remove);

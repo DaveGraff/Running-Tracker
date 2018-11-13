@@ -12,13 +12,17 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 /**
- *
+ *  This class takes advantage of shallow copies 
+ *  to neatly save user data
  * @author david
  */
-public class SaveFile {
+public final class SaveFile {
     private final String fileName;
+    private ArrayList<Distance> toSave;
+    
     public SaveFile(String fileName){
         this.fileName = fileName;
+        toSave = loadFromFile();
     }
     
     /**
@@ -26,32 +30,32 @@ public class SaveFile {
      * @return The saved data, or an empty list if none
      * is found
      */
-    public ArrayList<Distance> loadFromFile(){
+    public ArrayList<Distance> loadFromFile() {
         ArrayList<Distance> temp;
-        try{
+        try {
             FileInputStream fis = new FileInputStream(new File(fileName));
             ObjectInputStream reader = new ObjectInputStream(fis);
-            
+
             temp = (ArrayList<Distance>) reader.readObject();
-            
+
             reader.close();
             fis.close();
-        } catch(IOException | ClassNotFoundException e){
+        } catch (IOException | ClassNotFoundException e) {
             temp = new ArrayList<>();
         }
-        return temp;
+        toSave = temp;
+        return toSave;
     }
     
     /**
      * Saves data to given file
-     * @param input 
      */
-    public void saveToFile(ArrayList<Distance> input){
+    public void saveToFile(){
         try{
             FileOutputStream fos = new FileOutputStream(new File(fileName));
             ObjectOutputStream writer = new ObjectOutputStream(fos);
             
-            writer.writeObject(input);
+            writer.writeObject(toSave);
             
             writer.close();
             fos.close();

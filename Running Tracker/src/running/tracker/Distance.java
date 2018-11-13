@@ -152,17 +152,16 @@ public class Distance implements Serializable{
     
     /**
      * 
-     * @param distances object to be saved
      * @param save Save object
      */
-    public void viewDistance(ArrayList<Distance> distances, SaveFile save){
+    public void viewDistance(SaveFile save){
         Stage editStage = new Stage();
         editStage.setTitle(name);
                         
         ScrollPane scroller = new ScrollPane();
         scroller.setMinSize(345, 250);
         scroller.setMaxSize(345, 250);
-        viewDistanceRender(scroller, distances, save);
+        viewDistanceRender(scroller, save);
         
         Button sortTime = new Button("Sort by time");
         sortTime.setOnAction(e -> {
@@ -172,8 +171,8 @@ public class Distance implements Serializable{
             else
                isRun = sortByTimeFastest();
             if(isRun){
-                viewDistanceRender(scroller, distances, save);
-                save.saveToFile(distances);
+                viewDistanceRender(scroller, save);
+                save.saveToFile();
             }
         });
         
@@ -185,13 +184,13 @@ public class Distance implements Serializable{
             else
                isRun = sortByDateOldest();
             if(isRun){
-                viewDistanceRender(scroller, distances, save);
-                save.saveToFile(distances);
+                viewDistanceRender(scroller, save);
+                save.saveToFile();
             }
         });
         
         Button addRun = new Button("Add Run");addRun.setDefaultButton(true);
-        addRun.setOnAction(e -> addRun(distances, save, scroller));        
+        addRun.setOnAction(e -> addRun(save, scroller));        
         Button close = new Button("Close");close.setCancelButton(true);
         close.setOnAction(e -> editStage.close());
         
@@ -209,34 +208,34 @@ public class Distance implements Serializable{
      * @param distances
      * @param save 
      */
-    private void viewDistanceRender(ScrollPane scroller, ArrayList<Distance> distances, SaveFile save){
+    private void viewDistanceRender(ScrollPane scroller, SaveFile save){
         VBox runPane = new VBox();
         runs.forEach(run ->{
             Label date = new Label(run.getDate() + "\t");
             Label time = new Label(run.getTime() + "\t");
             Button edit = new Button("Edit");
             edit.setOnAction(e -> {
-                run.editRun(distances, save);
-                viewDistanceRender(scroller, distances, save);
+                run.editRun(save);
+                viewDistanceRender(scroller, save);
             });
             Button remove = new Button("Remove");
             remove.setOnAction(e -> {
                 runs.remove(run);
-                viewDistanceRender(scroller, distances, save);
-                save.saveToFile(distances);
+                viewDistanceRender(scroller, save);
+                save.saveToFile();
             });
             runPane.getChildren().add(new HBox(date, time, edit, remove));
         });
         scroller.setContent(runPane);
     }
     
-    private void addRun(ArrayList<Distance> distances, SaveFile saveFile, ScrollPane scroller){
+    private void addRun(SaveFile saveFile, ScrollPane scroller){
         Run temp = new Run(0, 0, new Date());
-        temp.editRun(distances, saveFile);
+        temp.editRun(saveFile);
         if(temp.getMinutes() > 0 || temp.getSeconds() > 0){
             runs.add(temp);
-            saveFile.saveToFile(distances);
-            viewDistanceRender(scroller, distances, saveFile);
+            saveFile.saveToFile();
+            viewDistanceRender(scroller, saveFile);
         }
     }
     
