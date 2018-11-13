@@ -1,0 +1,8 @@
+/*
+David Graff 2018
+*/
+
+HBox, VBox, ScrollPane {
+    -fx-spacing: 5;
+    -fx-padding: 5;
+}
